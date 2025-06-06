@@ -6,10 +6,9 @@ use Yii;
 use yii\base\Model;
 
 /**
- * LoginForm is the model behind the login form.
+ * LoginForm - модель для формы входа.
  *
  * @property-read User|null $user
- *
  */
 class LoginForm extends Model
 {
@@ -19,28 +18,27 @@ class LoginForm extends Model
 
     private $_user = false;
 
-
     /**
-     * @return array the validation rules.
+     * @return array правила валидации.
      */
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
+            // логин и пароль обязательны
+            [['username', 'password'], 'required', 'message' => 'Поле обязательно для заполнения'],
+            // rememberMe должен быть булевым значением
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
+            // пароль проверяется validatePassword()
             ['password', 'validatePassword'],
         ];
     }
 
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
+     * Проверяет пароль.
+     * Этот метод служит встроенной проверкой для пароля.
      *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
+     * @param string $attribute проверяемый атрибут
+     * @param array $params дополнительные пары имя-значение
      */
     public function validatePassword($attribute, $params)
     {
@@ -48,14 +46,14 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Неверный логин или пароль.');
             }
         }
     }
 
     /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
+     * Выполняет вход пользователя.
+     * @return bool успешность входа
      */
     public function login()
     {
@@ -66,7 +64,7 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]]
+     * Находит пользователя по [[username]]
      *
      * @return User|null
      */

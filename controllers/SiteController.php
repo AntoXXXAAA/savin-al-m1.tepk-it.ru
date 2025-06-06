@@ -55,7 +55,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Главная страница.
      *
      * @return string
      */
@@ -65,19 +65,19 @@ class SiteController extends Controller
     }
 
     /**
-     * Login action.
+     * Действие входа.
      *
      * @return Response|string
      */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['products/manufacturing']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['products/manufacturing']);
         }
 
         $model->password = '';
@@ -87,7 +87,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Logout action.
+     * Действие выхода.
      *
      * @return Response
      */
@@ -95,11 +95,11 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->redirect(['site/login']);
+        return $this->redirect('/site/login', 302);
     }
 
     /**
-     * Displays contact page.
+     * Страница контактов.
      *
      * @return Response|string
      */
@@ -117,7 +117,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays about page.
+     * Страница "О нас".
      *
      * @return string
      */
